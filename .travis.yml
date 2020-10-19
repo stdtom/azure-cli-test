@@ -9,7 +9,15 @@ stages:
 jobs:
   include:
     - python: "3.8"
-    - python: "3.9"
+    - name: "Python 3.9 on Linux (pyenv)"
+      os: linux
+      language: shell       # 'language: python' is an error on Travis CI Windows
+      before_install:
+        - unset PYENV_ROOT
+        - curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
+        - export PATH="$HOME/.pyenv/bin:$PATH"
+        - pyenv install 3.9.0
+        - pyenv shell 3.9.0
     - name: "Python 3.8 on Windows"
       os: windows
       language: shell       # 'language: python' is an error on Travis CI Windows
