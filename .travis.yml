@@ -1,0 +1,26 @@
+# Config file for automatic testing at travis-ci.com
+
+language: python
+stages:
+  - test
+  - name: deploy
+    # require the branch name to be master (note for PRs this is the base branch name)
+    if: tag is present
+jobs:
+  include:
+    - name: "Python 3.8 on Windows"
+      os: windows
+      language: shell       # 'language: python' is an error on Travis CI Windows
+      before_install:
+        - choco install python --version 3.8.6
+      env: PATH=/c/Python38:/c/Python38/Scripts:$PATH
+
+# Command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
+install:
+  - python -m pip install --upgrade pip
+  - pip install -U azure-cli
+
+# Command to run tests, e.g. python setup.py test
+script:
+  - az --version
+
